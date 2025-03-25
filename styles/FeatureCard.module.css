@@ -1,0 +1,105 @@
+.cardWrapper {
+  height: 100%;
+  display: block;
+}
+
+.featureCard {
+  height: 100%;
+  border: none;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+  position: relative;
+  z-index: 1;
+}
+
+.featureCard:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+}
+
+.featureCard:hover .icon {
+  transform: scale(1.2) rotate(5deg);
+  color: #007bff;
+}
+
+.featureCard:hover::before {
+  height: 100%;
+}
+
+.featureCard::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: linear-gradient(90deg, #007bff, #00bfff);
+  transition: all 0.3s ease;
+  z-index: -1;
+}
+
+.iconWrapper {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background-color: #f8f9fa;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 1.5rem auto 1rem;
+  transition: all 0.3s ease;
+}
+
+.icon {
+  font-size: 2.5rem;
+  color: #343a40;
+  transition: all 0.3s ease;
+}
+
+.cardBody {
+  text-align: center;
+  padding: 1.5rem;
+}
+
+.cardTitle {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: #343a40;
+}
+
+.cardDescription {
+  color: #6c757d;
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+}
+
+.cardLink {
+  display: inline-block;
+  color: #007bff;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.cardLink:hover {
+  color: #0056b3;
+  transform: translateX(5px);
+}
+
+.cardLink i {
+  margin-left: 5px;
+  transition: all 0.3s ease;
+}
+
+.cardLink:hover i {
+  transform: translateX(3px);
+}
+
+@media (max-width: 768px) {
+  .featureCard {
+    margin-bottom: 1.5rem;
+  }
+} 
