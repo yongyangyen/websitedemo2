@@ -1,0 +1,24 @@
+{
+  "name": "loan-web2",
+  "version": "1.0.0",
+  "description": "贷款服务网站",
+  "main": "index.js",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "export": "next build && next export"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@fortawesome/fontawesome-free": "^6.7.2",
+    "bootstrap": "^5.3.3",
+    "framer-motion": "^12.5.0",
+    "next": "^14.2.0",
+    "react": "^18.2.0",
+    "react-bootstrap": "^2.10.9",
+    "react-dom": "^18.2.0"
+  }
+}
