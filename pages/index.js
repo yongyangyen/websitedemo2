@@ -1,107 +1,59 @@
 import React, { useContext, useEffect } from 'react';
-import { Container, Row, Col } from 'react-bootstrap';
+import { Container, Row, Col, Button } from 'react-bootstrap';
 import Layout from '../components/Layout';
-import ModernCarousel from '../components/ModernCarousel';
-import FeatureCard from '../components/FeatureCard';
-import TestimonialCard from '../components/TestimonialCard';
-import ContactForm from '../components/ContactForm';
 import HeroSection from '../components/HeroSection';
+import LoanCards from '../components/LoanCards';
+import FeatureCard from '../components/FeatureCard';
+import TestimonialCarousel from '../components/TestimonialCarousel';
+import ContactForm from '../components/ContactForm';
 import { SiteDataContext } from '../components/SiteDataProvider';
+import styles from '../styles/Home.module.css';
 import useTranslation from '../components/useTranslation';
 import { AnimatedElement, ANIMATION_TYPES } from '../components/AnimatedElement';
-import styles from '../styles/Home.module.css';
 
 export default function Home() {
   const { siteData, isLoading } = useContext(SiteDataContext);
-  const { carouselSlides, features, testimonials, contactInfo, heroSection } = siteData || {};
   const { t } = useTranslation();
 
-  useEffect(() => {
-    console.log("首页加载 - siteData:", siteData);
-    console.log("轮播图数据:", carouselSlides);
-    console.log("数据加载状态:", isLoading);
-  }, [siteData, isLoading]);
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
 
   return (
-    <Layout title="贷款服务 - 首页">
-      {/* 英雄区域 */}
-      {!isLoading && heroSection && (
+    <Layout>
+      <main>
         <HeroSection 
-          title={t('hero.title')}
+          title={t('hero.title')} 
           subtitle={t('hero.subtitle')}
           buttonText={t('hero.buttonText')}
-          buttonLink={heroSection.buttonLink}
-          backgroundImage={heroSection.backgroundImage}
+          buttonLink={siteData.heroSection.buttonLink}
+          backgroundImage={siteData.heroSection.backgroundImage}
         />
-      )}
-
-      {/* 轮播图区域 */}
-      {!isLoading && carouselSlides && carouselSlides.length > 0 && (
-        <ModernCarousel slides={carouselSlides} />
-      )}
-
-      {/* 服务特点区域 */}
-      {!isLoading && features && features.length > 0 && (
+        
+        <LoanCards cards={siteData.loanCards} />
+        
         <section className={styles.featuresSection}>
           <Container>
-            <AnimatedElement 
-              animationType={ANIMATION_TYPES.FADE_IN_UP} 
-              delay={0.2}
-            >
-              <h2 className={styles.sectionTitle}>{t('services.title')}</h2>
-              <p className={styles.sectionSubtitle}>{t('services.subtitle')}</p>
-            </AnimatedElement>
-            
+            <h2 className="text-center mb-5">{t('features.title')}</h2>
             <Row>
-              {features.map((feature, index) => (
+              {siteData.features.map((feature) => (
                 <Col md={6} lg={4} key={feature.id} className="mb-4">
                   <FeatureCard 
-                    icon={feature.icon}
-                    title={feature.title}
+                    icon={feature.icon} 
+                    title={feature.title} 
                     description={feature.description}
-                    delay={0.1 * (index + 1)}
-                    buttonText={t('services.learnMore')}
-                    buttonLink="#contact"
                   />
                 </Col>
               ))}
             </Row>
           </Container>
         </section>
-      )}
-
-      {/* 客户评价区域 */}
-      {!isLoading && testimonials && testimonials.length > 0 && (
+        
         <section className={styles.testimonialsSection}>
-          <Container>
-            <AnimatedElement 
-              animationType={ANIMATION_TYPES.FADE_IN_UP} 
-              delay={0.2}
-            >
-              <h2 className={styles.sectionTitle}>{t('testimonials.title')}</h2>
-              <p className={styles.sectionSubtitle}>{t('testimonials.subtitle')}</p>
-            </AnimatedElement>
-            
-            <Row>
-              {testimonials.map((testimonial, index) => (
-                <Col md={6} lg={4} key={testimonial.id} className="mb-4">
-                  <TestimonialCard 
-                    name={testimonial.name}
-                    position={testimonial.position}
-                    quote={testimonial.quote}
-                    avatar={testimonial.avatar}
-                    delay={0.1 * (index + 1)}
-                  />
-                </Col>
-              ))}
-            </Row>
-          </Container>
+          <TestimonialCarousel testimonials={siteData.testimonials} />
         </section>
-      )}
-
-      {/* 联系我们区域 */}
-      {!isLoading && contactInfo && (
-        <section id="contact" className={styles.contactSection}>
+        
+        <section className={styles.contactSection} id="contact">
           <Container>
             <Row>
               <Col md={12} lg={5} className="mb-4 mb-lg-0">
@@ -120,7 +72,7 @@ export default function Home() {
                         </div>
                         <div className={styles.contactText}>
                           <h4>{t('contact.address')}</h4>
-                          <p>{contactInfo.address}</p>
+                          <p>{siteData.contactInfo.address}</p>
                         </div>
                       </div>
                       
@@ -130,7 +82,7 @@ export default function Home() {
                         </div>
                         <div className={styles.contactText}>
                           <h4>{t('contact.phone')}</h4>
-                          <p>{contactInfo.phone}</p>
+                          <p>{siteData.contactInfo.phone}</p>
                         </div>
                       </div>
                       
@@ -140,7 +92,7 @@ export default function Home() {
                         </div>
                         <div className={styles.contactText}>
                           <h4>{t('contact.email')}</h4>
-                          <p>{contactInfo.email}</p>
+                          <p>{siteData.contactInfo.email}</p>
                         </div>
                       </div>
                       
@@ -150,7 +102,7 @@ export default function Home() {
                         </div>
                         <div className={styles.contactText}>
                           <h4>{t('contact.hours')}</h4>
-                          <p>{contactInfo.businessHours}</p>
+                          <p>{siteData.contactInfo.businessHours}</p>
                         </div>
                       </div>
                     </div>
@@ -164,7 +116,7 @@ export default function Home() {
             </Row>
           </Container>
         </section>
-      )}
+      </main>
     </Layout>
   );
 } 

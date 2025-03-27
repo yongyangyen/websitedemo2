@@ -68,6 +68,34 @@ const translations = {
       followUs: '关注我们',
       copyright: '版权所有',
     },
+    loans: {
+      title: '个人贷款',
+      subtitle: '寻找适合您需求的贷款，快速简便的申请流程',
+      applyNow: '立即申请',
+      termsApply: '*条款与条件适用',
+      compare: '比较全部贷款'
+    },
+    // 贷款卡片区块
+    loanCards: {
+      sectionTitle: '热门贷款产品',
+      title: '热门贷款产品',
+      subtitle: '为您推荐最适合的贷款方案，低利率、快速审批',
+      showMore: '显示更多',
+      showLess: '收起',
+      compareAll: '比较所有贷款',
+    },
+    // 贷款卡片
+    loanCard: {
+      defaultActionText: '立即申请',
+      actionText: '立即申请',
+      rateTitle: '贷款利率低至',
+      terms: '条款与条件适用',
+      defaultTerms: '*条款与条件适用',
+    },
+    // 功能区
+    features: {
+      title: '我们的服务特点',
+    },
   },
   
   // 英文翻译
@@ -138,6 +166,34 @@ const translations = {
       followUs: 'Follow Us',
       copyright: 'All Rights Reserved',
     },
+    loans: {
+      title: 'Personal Loans',
+      subtitle: 'Find a loan that suits your needs with a fast and easy application process',
+      applyNow: 'Apply Now',
+      termsApply: '*Terms & Conditions Apply',
+      compare: 'Compare All Loans'
+    },
+    // 贷款卡片区块
+    loanCards: {
+      sectionTitle: 'Popular Loan Products',
+      title: 'Popular Loan Products',
+      subtitle: 'Recommended loan options with low interest rates and quick approval',
+      showMore: 'Show More',
+      showLess: 'Show Less',
+      compareAll: 'Compare All Loans',
+    },
+    // 贷款卡片
+    loanCard: {
+      defaultActionText: 'Apply Now',
+      actionText: 'Apply Now',
+      rateTitle: 'Interest Rate From',
+      terms: 'Terms & Conditions Apply',
+      defaultTerms: '*Terms & Conditions Apply',
+    },
+    // 功能区
+    features: {
+      title: 'Our Service Features',
+    },
   },
   
   // 马来文翻译
@@ -207,6 +263,34 @@ const translations = {
       contactInfo: 'Maklumat Hubungan',
       followUs: 'Ikuti Kami',
       copyright: 'Hak Cipta Terpelihara',
+    },
+    loans: {
+      title: 'Pinjaman Peribadi',
+      subtitle: 'Cari pinjaman yang sesuai dengan keperluan anda dengan proses permohonan yang cepat dan mudah',
+      applyNow: 'Mohon Sekarang',
+      termsApply: '*Tertakluk pada Terma & Syarat',
+      compare: 'Bandingkan Semua Pinjaman'
+    },
+    // 贷款卡片区块
+    loanCards: {
+      sectionTitle: 'Produk Pinjaman Popular',
+      title: 'Produk Pinjaman Popular',
+      subtitle: 'Pilihan pinjaman yang disyorkan dengan kadar faedah rendah dan kelulusan cepat',
+      showMore: 'Tunjukkan Lebih',
+      showLess: 'Tunjukkan Kurang',
+      compareAll: 'Bandingkan Semua Pinjaman',
+    },
+    // 贷款卡片
+    loanCard: {
+      defaultActionText: 'Mohon Sekarang',
+      actionText: 'Mohon Sekarang',
+      rateTitle: 'Kadar Faedah Dari',
+      terms: 'Tertakluk pada Terma & Syarat',
+      defaultTerms: '*Tertakluk pada Terma & Syarat',
+    },
+    // 功能区
+    features: {
+      title: 'Ciri-ciri Perkhidmatan Kami',
     },
   },
 };

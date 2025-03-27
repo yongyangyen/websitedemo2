@@ -1,6 +1,6 @@
-import React, { createContext, useState, useEffect } from 'react';
+import React, { useState, useEffect, createContext, useMemo } from 'react';
 
-// 创建语言上下文
+// 创建语言环境上下文
 export const LanguageContext = createContext();
 
 // 支持的语言
@@ -16,16 +16,25 @@ const defaultLanguage = 'zh';
 const LanguageProvider = ({ children }) => {
   // 从localStorage加载语言设置（如果有的话）
   const [currentLanguage, setCurrentLanguage] = useState(defaultLanguage);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    try {
-      const savedLanguage = localStorage.getItem('selectedLanguage');
-      if (savedLanguage && languages[savedLanguage]) {
-        setCurrentLanguage(savedLanguage);
+    // 使用立即执行函数，使代码更清晰
+    const loadLanguagePreference = () => {
+      setIsLoading(true);
+      try {
+        const savedLanguage = localStorage.getItem('selectedLanguage');
+        if (savedLanguage && languages[savedLanguage]) {
+          setCurrentLanguage(savedLanguage);
+        }
+      } catch (error) {
+        console.error('Error loading language setting:', error);
+      } finally {
+        setIsLoading(false);
       }
-    } catch (error) {
-      console.error('Error loading language setting:', error);
-    }
+    };
+
+    loadLanguagePreference();
   }, []);
 
   // 切换语言
@@ -40,8 +49,19 @@ const LanguageProvider = ({ children }) => {
     }
   };
 
+  // 使用useMemo优化上下文值，避免不必要的重渲染
+  const contextValue = useMemo(() => ({
+    currentLanguage, 
+    changeLanguage, 
+    languages, 
+    isLoading
+  }), [currentLanguage, isLoading]);
+
+  // 如果仍在加载语言首选项，可以考虑返回空或加载指示器
+  // 或者直接渲染子组件，但使用默认语言，取决于具体需求
+
   return (
-    <LanguageContext.Provider value={{ currentLanguage, changeLanguage, languages }}>
+    <LanguageContext.Provider value={contextValue}>
       {children}
     </LanguageContext.Provider>
   );

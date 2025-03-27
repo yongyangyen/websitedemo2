@@ -6,6 +6,7 @@ import styles from '../styles/ModernCarousel.module.css';
 const ModernCarousel = ({ slides = [], autoplaySpeed = 5000, height = 500 }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [direction, setDirection] = useState(1); // 1 为向左, -1 为向右
+  const [isHovering, setIsHovering] = useState(false);
   const autoplayTimerRef = useRef(null);
   
   // 如果没有轮播数据，返回null
@@ -15,7 +16,7 @@ const ModernCarousel = ({ slides = [], autoplaySpeed = 5000, height = 500 }) => 
   
   // 自动播放
   useEffect(() => {
-    if (autoplaySpeed > 0) {
+    if (autoplaySpeed > 0 && !isHovering) {
       autoplayTimerRef.current = setInterval(() => {
         handleNext();
       }, autoplaySpeed);
@@ -26,7 +27,7 @@ const ModernCarousel = ({ slides = [], autoplaySpeed = 5000, height = 500 }) => 
         clearInterval(autoplayTimerRef.current);
       }
     };
-  }, [currentIndex, autoplaySpeed]);
+  }, [currentIndex, autoplaySpeed, isHovering]);
   
   // 下一张幻灯片
   const handleNext = () => {
@@ -48,6 +49,7 @@ const ModernCarousel = ({ slides = [], autoplaySpeed = 5000, height = 500 }) => 
   
   // 鼠标悬停时暂停自动播放
   const handleMouseEnter = () => {
+    setIsHovering(true);
     if (autoplayTimerRef.current) {
       clearInterval(autoplayTimerRef.current);
     }
@@ -55,6 +57,7 @@ const ModernCarousel = ({ slides = [], autoplaySpeed = 5000, height = 500 }) => 
   
   // 鼠标离开时恢复自动播放
   const handleMouseLeave = () => {
+    setIsHovering(false);
     if (autoplaySpeed > 0) {
       autoplayTimerRef.current = setInterval(() => {
         handleNext();
@@ -66,22 +69,27 @@ const ModernCarousel = ({ slides = [], autoplaySpeed = 5000, height = 500 }) => 
   const variants = {
     enter: (direction) => ({
       x: direction > 0 ? 1000 : -1000,
-      opacity: 0
+      opacity: 0,
+      scale: 0.95
     }),
     center: {
       x: 0,
-      opacity: 1
+      opacity: 1,
+      scale: 1
     },
     exit: (direction) => ({
       x: direction > 0 ? -1000 : 1000,
-      opacity: 0
+      opacity: 0,
+      scale: 0.95,
+      zIndex: 0
     })
   };
   
   // 转场动画配置
   const transition = {
     x: { type: 'spring', stiffness: 300, damping: 30 },
-    opacity: { duration: 0.2 }
+    opacity: { duration: 0.5 },
+    scale: { duration: 0.5 }
   };
   
   return (
@@ -104,22 +112,43 @@ const ModernCarousel = ({ slides = [], autoplaySpeed = 5000, height = 500 }) => 
               transition={transition}
               className={styles.slide}
               style={{
-                backgroundImage: `url(${slides[currentIndex].image})`,
+                backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url(${slides[currentIndex].image})`,
                 height: `${height}px`
               }}
             >
+              <div className={styles.slideOverlay}></div>
               <div className={styles.slideContent}>
                 <div className={styles.slideTextContainer}>
-                  <h2 className={styles.slideTitle}>{slides[currentIndex].title}</h2>
-                  <p className={styles.slideDescription}>{slides[currentIndex].description}</p>
+                  <motion.h2 
+                    className={styles.slideTitle}
+                    initial={{ y: 20, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    transition={{ delay: 0.2, duration: 0.5 }}
+                  >
+                    {slides[currentIndex].title}
+                  </motion.h2>
+                  <motion.p 
+                    className={styles.slideDescription}
+                    initial={{ y: 20, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    transition={{ delay: 0.4, duration: 0.5 }}
+                  >
+                    {slides[currentIndex].description}
+                  </motion.p>
                   {slides[currentIndex].buttonText && (
-                    <Button 
-                      variant="primary" 
-                      className={styles.slideButton}
-                      href={slides[currentIndex].buttonLink || '#'}
+                    <motion.div
+                      initial={{ y: 20, opacity: 0 }}
+                      animate={{ y: 0, opacity: 1 }}
+                      transition={{ delay: 0.6, duration: 0.5 }}
                     >
-                      {slides[currentIndex].buttonText}
-                    </Button>
+                      <Button 
+                        variant="primary" 
+                        className={styles.slideButton}
+                        href={slides[currentIndex].buttonLink || '#'}
+                      >
+                        {slides[currentIndex].buttonText}
+                      </Button>
+                    </motion.div>
                   )}
                 </div>
               </div>
@@ -127,23 +156,25 @@ const ModernCarousel = ({ slides = [], autoplaySpeed = 5000, height = 500 }) => 
           </AnimatePresence>
         </div>
         
-        <Button 
-          variant="light" 
-          className={`${styles.carouselControl} ${styles.carouselControlPrev}`}
-          onClick={handlePrevious}
-          aria-label="上一页"
-        >
-          <i className="fas fa-chevron-left"></i>
-        </Button>
-        
-        <Button 
-          variant="light" 
-          className={`${styles.carouselControl} ${styles.carouselControlNext}`}
-          onClick={handleNext}
-          aria-label="下一页"
-        >
-          <i className="fas fa-chevron-right"></i>
-        </Button>
+        <div className={`${styles.carouselControls} ${isHovering ? styles.visible : ''}`}>
+          <Button 
+            variant="light" 
+            className={`${styles.carouselControl} ${styles.carouselControlPrev}`}
+            onClick={handlePrevious}
+            aria-label="上一页"
+          >
+            <i className="fas fa-chevron-left"></i>
+          </Button>
+          
+          <Button 
+            variant="light" 
+            className={`${styles.carouselControl} ${styles.carouselControlNext}`}
+            onClick={handleNext}
+            aria-label="下一页"
+          >
+            <i className="fas fa-chevron-right"></i>
+          </Button>
+        </div>
         
         <div className={styles.carouselIndicators}>
           {slides.map((_, index) => (
